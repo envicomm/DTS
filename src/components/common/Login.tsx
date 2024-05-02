@@ -14,7 +14,18 @@ export const Login = () => {
                 <h1 className="font-semibold text-[40px]">Document Tracking System</h1>
               </div>
             <div className="flex w-[510px] h-[607px] bg-white shadow-2xl rounded-lg ">
-             
+            <form>
+                <label className="block">
+                  <span className="block text-sm font-medium text-slate-700">Email</span>
+                  <input type="email" className="peer ..."/>
+                  <p className="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">
+                    Please provide a valid email address.
+                  </p>
+                </label>
+</form>
+
+
+
             </div>
       </div>
 
