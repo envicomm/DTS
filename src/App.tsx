@@ -9,12 +9,13 @@ import {
 import { Dashboard } from "./components/admin/pages/Dashboard";
 import { Login } from "./components/common/Login";
 import { ReactNode, useEffect, useState } from "react";
+import {Header} from "./components/common/Header";
 
 type PrivateProsp = {
   children: ReactNode;
 };
 const PrivateAdminRoute = ({ children }: PrivateProsp) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const navigate = useNavigate();
 
@@ -31,6 +32,7 @@ function AdminRoutes() {
 
   return (
     <PrivateAdminRoute>
+      <Header/>
       <Routes>
         <Route path={pathname} element={<Dashboard />} />
         <Route path={`${pathname}/profile`} element={<Dashboard />} />
