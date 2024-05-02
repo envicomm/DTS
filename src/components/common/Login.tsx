@@ -1,9 +1,8 @@
 
-
-import React from 'react'
+import { Button } from '../ui/button'
 
 export const Login = () => {
   return (
-    <div className="bg-black">Login</div>
+    <div className=""><Button variant="secondary">sadsad</Button></div>
   )
 }
