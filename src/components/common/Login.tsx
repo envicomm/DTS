@@ -1,4 +1,14 @@
 
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormDescription, FormField, FormItem } from "../ui/form"
+
+export default function Home() {
+  return (
+    <div>
+      <Button>Click me</Button>
+    </div>
+  )
+}
 
 export const Login = () => {
   return (
@@ -13,8 +23,8 @@ export const Login = () => {
             <div className="w-fullflex  justify-center">
                 <h1 className="font-semibold text-[40px]">Document Tracking System</h1>
               </div>
-            <div className="flex w-[510px] h-[607px] bg-white shadow-2xl rounded-lg ">
-          
+            <div className="flex w-[510px] h-[607px] bg-white shadow-2xl rounded-lg items-center justify-center">
+               
 
             </div>
       </div>
