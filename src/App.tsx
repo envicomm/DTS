@@ -10,6 +10,7 @@ import { Dashboard } from "./components/admin/pages/Dashboard";
 import { Login } from "./components/common/Login";
 import { ReactNode, useEffect, useState } from "react";
 import {Header} from "./components/common/Header";
+import { SideNav } from "./components/common/Sidenav";
 
 type PrivateProsp = {
   children: ReactNode;
@@ -33,6 +34,7 @@ function AdminRoutes() {
   return (
     <PrivateAdminRoute>
       <Header/>
+      <SideNav/>
       <Routes>
         <Route path={pathname} element={<Dashboard />} />
         <Route path={`${pathname}/profile`} element={<Dashboard />} />
