@@ -1,8 +1,10 @@
 
 export const Dashboard = () => {
   return (
-    <div    >
-      <h1 >Dashboard</h1>
+    <div className="justify-center">
+        <div className="flex h-[446px] w-[1047px] bg-black">
+            asdasdsa
+        </div>
     </div>
   );
 };
