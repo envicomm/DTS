@@ -24,8 +24,7 @@ export const Login = () => {
                 <h1 className="font-semibold text-[40px]">Document Tracking System</h1>
               </div>
             <div className="flex w-[510px] h-[607px] bg-white shadow-2xl rounded-lg items-center justify-center">
-               
-
+          
             </div>
       </div>
 
