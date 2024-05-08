@@ -10,8 +10,8 @@ export const Header =() =>{
         </div>
             <div className="flex items-center mr-6">
                 <div className="flex justify-center items-center    ">
-                <Settings className="text-green-500 w-[65px] h-[45px]"/>
-                <div className="div"></div>
+                    <Settings className="text-green-500 w-[65px] h-[45px]"/>
+              
                 <h1 className="flex  text-[15px] p-1">John Doe</h1>
                 <Avatar>
                     <AvatarImage src="https://github.com/shadcn.png" className="w-[45px] rounded-full" />
