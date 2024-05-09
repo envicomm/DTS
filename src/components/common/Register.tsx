@@ -29,10 +29,11 @@ import { Calendar } from "../ui/calendar";
 import { Separator } from "../ui/separator";
 import { useMutation } from "@tanstack/react-query";
 import { registerUser } from "@/api/registerUser";
+import { toast } from "react-toastify";
 
 export const Register = () => {
   const [selectedDivision, setSelectedDivision] = useState("");
-
+  const [submitting, setSubmitting] = useState(false);
   const form = useForm<TRegister>({
     resolver: zodResolver(RegisterSchema),
     mode: "onChange",
@@ -54,23 +55,32 @@ export const Register = () => {
   });
 
   const mutate = useMutation({
-    mutationFn: (formData: FormData) => {
-      return registerUser(formData);
+    mutationFn: registerUser,
+    onMutate:()=>setSubmitting(true),
+    onSuccess: (data) => {
+      console.log(data);
+      form.reset();
+      setSubmitting(false)
+      toast.success(data);
+      
+    },
+    onError: (error) => {
+      toast.error(error.message)
+      setSubmitting(false)
+      console.log(error);
     },
   });
 
   const onSubmit: SubmitHandler<TRegister> = (data) => {
-    console.log(data);
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
       if (key === "imageFile") {
         formData.append(key, value as File);
-      }
-      else if(key === "dateStarted"){
-        const date = new Date(value)
-        console.log(date.toISOString())
-        formData.append(key,date.toISOString());
+      } else if (key === "dateStarted") {
+        const date = new Date(value);
+        console.log(date.toISOString());
+        formData.append(key, date.toISOString());
       } else {
         formData.append(key, value as string);
       }
@@ -387,8 +397,8 @@ export const Register = () => {
               <Button
                 type="submit"
                 onClick={() => console.log(form.formState.errors)}
-              >
-                Submit
+              disabled={submitting}>
+                {submitting ? "Submitting" : "Submit"}
               </Button>
             </div>
           </form>

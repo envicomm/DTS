@@ -13,13 +13,11 @@ import { Header } from "./components/common/Header";
 import { SideNav } from "./components/common/Sidenav";
 import { Register } from "./components/common/Register";
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
   QueryClient,
-  QueryClientProvider,
+  QueryClientProvider
 } from "@tanstack/react-query";
-import { publicDecrypt } from "crypto";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 type PrivateProsp = {
   children: ReactNode;
 };
@@ -56,25 +54,39 @@ function AdminRoutes() {
     </QueryClientProvider>
   );
 }
-function PublicRoutes(){
-  return(
+function PublicRoutes() {
+  return (
     <QueryClientProvider client={publicQueryClient}>
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-    </Routes>
-  </QueryClientProvider>
-  )
-
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </QueryClientProvider>
+  );
 }
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/dashboard/*" element={<AdminRoutes />} />
-        <Route path="/*" element={<PublicRoutes />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/dashboard/*" element={<AdminRoutes />} />
+          <Route path="/*" element={<PublicRoutes />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
