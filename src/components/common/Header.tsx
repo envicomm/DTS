@@ -4,7 +4,7 @@ import { Settings } from "lucide-react"
 export const Header =() =>{
     return(
 
-        <div className="flex w-full h-[77px] justify-between shadow-lg ">
+        <div className="flex w-full justify-between shadow-lg">
             <div className="flex items-center ml-6 ">
                 <h1 className="text-green-500 text-[30px]">LOGO</h1>
         </div>

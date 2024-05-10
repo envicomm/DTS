@@ -6,18 +6,20 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { Dashboard } from "./components/admin/pages/Dashboard";
-import { Login } from "./components/common/Login";
+
 import { ReactNode, useEffect, useState } from "react";
-import { Header } from "./components/common/Header";
-import { SideNav } from "./components/common/Sidenav";
-import { Register } from "./components/common/Register";
-import {
-  QueryClient,
-  QueryClientProvider
-} from "@tanstack/react-query";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import { Header } from "./components/common/header";
+import { SideNav } from "./components/common/sidenav";
+import { Dashboard } from "./components/admin/pages/dashboard";
+import { Register } from "./components/common/register";
+import Login from "./components/common/login";
+import UserList from "./components/admin/pages/userPages/user-list";
+import { ScrollArea } from "./components/ui/scroll-area";
+
 type PrivateProsp = {
   children: ReactNode;
 };
@@ -44,12 +46,29 @@ function AdminRoutes() {
   return (
     <QueryClientProvider client={adminQueryClient}>
       <PrivateAdminRoute>
-        <Header />
-        <SideNav />
-        <Routes>
-          <Route path={pathname} element={<Dashboard />} />
-          <Route path={`${pathname}/profile`} element={<Dashboard />} />
-        </Routes>
+        <div className="flex flex-col w-full bg-[#F4F4F4] min-h-screen relative">
+          <div className="flex w-full min-h-[77px] bg-white">
+            <Header />
+          </div>
+          <div className="flex w-full min-h-screen">
+            <div className="flex-none  w-[350px] bg-white m-4">
+              <SideNav />
+            </div>
+            <div className="flex-grow z-10 p-4">
+              <div className="flex  bg-white min-h-screen ">
+                <ScrollArea className="h-full w-full">
+
+                <Routes>
+                  <Route path="/overview" element={<Dashboard />} />
+                  <Route path={`${pathname}/profile`} element={<Dashboard />} />
+                  <Route path={`/register`} element={<Register />} />
+                  <Route path={`/users`} element={<UserList />} />
+                </Routes>
+                </ScrollArea>
+              </div>
+            </div>
+          </div>
+        </div>
       </PrivateAdminRoute>
     </QueryClientProvider>
   );
@@ -59,7 +78,6 @@ function PublicRoutes() {
     <QueryClientProvider client={publicQueryClient}>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
       </Routes>
     </QueryClientProvider>
   );

@@ -30,10 +30,13 @@ import { Separator } from "../ui/separator";
 import { useMutation } from "@tanstack/react-query";
 import { registerUser } from "@/api/registerUser";
 import { toast } from "react-toastify";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { z } from "zod";
 
 export const Register = () => {
   const [selectedDivision, setSelectedDivision] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [preview, setPreview] = useState("");
   const form = useForm<TRegister>({
     resolver: zodResolver(RegisterSchema),
     mode: "onChange",
@@ -56,17 +59,16 @@ export const Register = () => {
 
   const mutate = useMutation({
     mutationFn: registerUser,
-    onMutate:()=>setSubmitting(true),
+    onMutate: () => setSubmitting(true),
     onSuccess: (data) => {
       console.log(data);
       form.reset();
-      setSubmitting(false)
+      setSubmitting(false);
       toast.success(data);
-      
     },
     onError: (error) => {
-      toast.error(error.message)
-      setSubmitting(false)
+      toast.error(error.message);
+      setSubmitting(false);
       console.log(error);
     },
   });
@@ -79,8 +81,8 @@ export const Register = () => {
         formData.append(key, value as File);
       } else if (key === "dateStarted") {
         const date = new Date(value);
-        console.log(date.toISOString());
-        formData.append(key, date.toISOString());
+        const zodDate = z.date().parse(date);
+        formData.append(key, zodDate.toISOString());
       } else {
         formData.append(key, value as string);
       }
@@ -88,15 +90,44 @@ export const Register = () => {
     mutate.mutate(formData);
   };
   return (
-    <div className="w-full  flex bg-[#F4F4F4] items-center justify-center p-4">
+    <div className="w-full flex  items-center justify-center p-4">
       <div className="w-full  bg-white p-12 flex">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col w-full "
           >
+             <Avatar className="w-[250px] h-[250px]">
+                <AvatarImage src={preview} />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
             <div className="grid grid-rows-2 gap-4 ">
+             
               <div className="grid grid-cols-3 gap-4    ">
+              <FormField
+                  control={form.control}
+                  name="imageFile"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Image</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="file"
+                          onChange={(value) => {
+                            if (value.target.files) {
+                              setPreview(URL.createObjectURL(value.target.files[0]));
+                              field.onChange(value.target.files[0]);
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        This is your public display name.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="email"
@@ -120,7 +151,7 @@ export const Register = () => {
                     <FormItem>
                       <FormLabel>Firstname</FormLabel>
                       <FormControl>
-                        <Input placeholder="Email" {...field} />
+                        <Input placeholder="Firstname" {...field} />
                       </FormControl>
                       <FormDescription>
                         This is your public display name.
@@ -331,29 +362,7 @@ export const Register = () => {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="imageFile"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Image</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="file"
-                          onChange={(value) => {
-                            if (value.target.files) {
-                              field.onChange(value.target.files[0]);
-                            }
-                          }}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                
               </div>
               <div className="">
                 <Separator />
@@ -381,7 +390,11 @@ export const Register = () => {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input placeholder="Password" {...field} />
+                          <Input
+                            type="password"
+                            placeholder="Password"
+                            {...field}
+                          />
                         </FormControl>
                         <FormDescription>
                           This is your public display name.
@@ -393,11 +406,12 @@ export const Register = () => {
                 </div>
               </div>
             </div>
-            <div className="">
+            <div className="flex justify-end">
               <Button
                 type="submit"
                 onClick={() => console.log(form.formState.errors)}
-              disabled={submitting}>
+                disabled={submitting}
+              >
                 {submitting ? "Submitting" : "Submit"}
               </Button>
             </div>

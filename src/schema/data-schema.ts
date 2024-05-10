@@ -1,6 +1,5 @@
-import { z } from "zod";
+import { string, z } from "zod";
 
-const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 export const RegisterSchema = z.object({
@@ -53,4 +52,20 @@ export const RegisterSchema = z.object({
     })
    
 })
+
+
+export const UsersInfo = RegisterSchema.omit({
+    username:true,
+    password:true,
+    imageFile: true,
+}).extend({
+    id:z.string(),
+    signedUrl : z.string(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
+    accountId:z.string(),
+    imageUrl:z.string()
+
+})
+export type TUsers = z.infer<typeof UsersInfo>
 export type TRegister = z.infer<typeof RegisterSchema>

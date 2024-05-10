@@ -10,8 +10,10 @@ export const registerUser = async (data: FormData) => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
+      console.log(error)
       throw new Error(error.response.data.message)
     }
+   
     throw new Error ("Something went wrong while creating user !");
   }
 };

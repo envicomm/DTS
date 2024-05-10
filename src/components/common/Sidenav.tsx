@@ -1,33 +1,65 @@
-import { ClipboardList, LayoutDashboard, UsersRound } from "lucide-react";
-import { useState } from "react";
+import { BookUser, LayoutDashboard, UserRoundPlus } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 export const SideNav = () => {
-    const [showItems, setShowItems] = useState(false);
-    
-    return (
-        <div className="flex w-[298px] h-screen bg-green-500 justify-center">
-            <div className="flex flex-col mt-24">
-                <h1 className="flex items-center font-semibold text-[22px] p-8 cursor-pointer transform hover:scale-105 transition-transform">
-                    <LayoutDashboard className="w-[50px] h-[40px]" />
-                    Dashboard
-                </h1>
-                <h2 className="flex items-center font-semibold text-[22px] p-8 cursor-pointer transform hover:scale-105 transition-transform" onClick={() => setShowItems(!showItems)}>
-                    <ClipboardList className="w-[50px] h-[40px]" />
-                    Tracking
-                </h2>
-                {showItems && (
-                    <div className="overflow-hidden transition-height ease-in-out duration-800">
-                        <div className="flex flex-col items-center">
-                            <p className="text-[22px] font-semibold p-2">Search</p>
-                            <p className="text-[22px] font-semibold p-2">inbox</p>
-                        </div>
-                    </div>
-                )}
-                <h3 className="flex items-center font-semibold text-[22px] p-8 cursor-pointer transform hover:scale-105 transition-transform">
-                    <UsersRound className="w-[50px] h-[40px]" />
-                    User
-                </h3>
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex w-[298px] min-h-full ">
+      <ul className="flex flex-col mt-24 space-y-4 w-full  text-[#333333] mx-2">
+        <li>
+          <NavLink
+            to={`/dashboard/overview`}
+            className={({ isActive }) => {
+              return `justify-start items-center flex  w-full p-2 space-x-2 text-lg font-semibold rounded-md ${
+                isActive ? "bg-[#007BFF]" : ""
+              }`;
+            }}
+          >
+            <LayoutDashboard className="" />
+            <h1>Dashboard</h1>
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to="/dashboard/register"
+            className={({ isActive }) => {
+              return `justify-start items-center flex w-full p-2 space-x-2 text-lg font-semibold rounded-md ${
+                isActive ? "bg-[#007BFF]" : ""
+              }`;
+            }}
+          >
+            <UserRoundPlus />
+            <h1>Register</h1>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/dashboard/users"
+            className={({ isActive }) => {
+              return `justify-start items-center flex w-full p-2 space-x-2 text-lg font-semibold rounded-md ${
+                isActive ? "bg-[#007BFF]" : ""
+              }`;
+            }}
+          >
+            <BookUser />
+            <h1>User list</h1>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/dashboard/transaction"
+            className={({ isActive }) => {
+              return `justify-start items-center flex w-full p-2 space-x-2 text-lg font-semibold rounded-md ${
+                isActive ? "bg-[#007BFF]" : ""
+              }`;
+            }}
+          >
+            <BookUser />
+            <h1>Transaction</h1>
+          </NavLink>
+        </li>
+        
+      </ul>
+    </div>
+  );
 };
