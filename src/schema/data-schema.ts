@@ -29,13 +29,10 @@ export const RegisterSchema = z.object({
     jobStatus: z.enum(["ACTIVE","INACTIVE","PENDING"],{
         message:"Invalid Input"
     }),
-    username: z.string().min(1,{
-        message:"Username is required"
-    }),
     password: z.string().min(1,{
         message:"Password is required"
     }),
-    role: z.enum(["ADMIN","TL","CS"],{
+    accountType: z.enum(["ADMIN","TL","USER"],{
         message:"Invalid Input"
     }),
     imageFile: z
@@ -53,9 +50,15 @@ export const RegisterSchema = z.object({
    
 })
 
-
+export const loginUserSchema = z.object({
+    email:z.string().email({
+        message:"Email is required"
+    }),
+    password:z.string().min(1,{
+        message:"Password is required"
+    })
+})
 export const UsersInfo = RegisterSchema.omit({
-    username:true,
     password:true,
     imageFile: true,
 }).extend({
@@ -67,5 +70,6 @@ export const UsersInfo = RegisterSchema.omit({
     imageUrl:z.string()
 
 })
+export type TLogin = z.infer<typeof loginUserSchema>
 export type TUsers = z.infer<typeof UsersInfo>
 export type TRegister = z.infer<typeof RegisterSchema>

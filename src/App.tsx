@@ -12,13 +12,15 @@ import { ReactNode, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Header } from "./components/common/header";
-import { SideNav } from "./components/common/sidenav";
-import { Dashboard } from "./components/admin/pages/dashboard";
-import { Register } from "./components/common/register";
-import Login from "./components/common/login";
+
 import UserList from "./components/admin/pages/userPages/user-list";
 import { ScrollArea } from "./components/ui/scroll-area";
+import { Header } from "./components/common/Header";
+import { SideNav } from "./components/common/Sidenav";
+import { Dashboard } from "./components/admin/pages/Dashboard";
+import { Register } from "./components/common/Register";
+import { Login } from "./components/common/Login";
+
 
 type PrivateProsp = {
   children: ReactNode;

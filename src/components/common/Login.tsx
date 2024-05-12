@@ -1,20 +1,4 @@
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-} from "../ui/form";
-
-export default function Home() {
-  return (
-    <div>
-      <Button>Click me</Button>
-    </div>
-  );
-}
-
+import { LoginForm } from "./Forms/loginForm";
 export const Login = () => {
   return (
     <div className="min-h-screen w-screen grid grid-cols-2 gap-1">
@@ -27,7 +11,10 @@ export const Login = () => {
             Document Tracking System
           </h1>
         </div>
-        <div className="flex w-[510px] h-[607px] bg-white shadow-2xl rounded-lg items-center justify-center"></div>
+        <div className="flex flex-col w-[510px] h-[607px] bg-white shadow-2xl rounded-lg items-center justify-center p-4">
+          <h1 className="font-semibold text-[24px]">Login</h1>
+          <LoginForm />
+        </div>
       </div>
     </div>
   );

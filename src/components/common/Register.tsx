@@ -28,10 +28,11 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { Separator } from "../ui/separator";
 import { useMutation } from "@tanstack/react-query";
-import { registerUser } from "@/api/registerUser";
+
 import { toast } from "react-toastify";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { z } from "zod";
+import { registerUser } from "@/api/auth/register";
 
 export const Register = () => {
   const [selectedDivision, setSelectedDivision] = useState("");
@@ -49,9 +50,8 @@ export const Register = () => {
       assignedPosition: "",
       dateStarted: new Date(),
       jobStatus: "ACTIVE",
-      username: "",
       password: "",
-      role: "ADMIN",
+      accountType: "ADMIN",
       imageFile: null,
       contactNumber: "",
     },
@@ -97,14 +97,14 @@ export const Register = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col w-full "
           >
-             <Avatar className="w-[250px] h-[250px]">
-                <AvatarImage src={preview} />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
+            <Avatar className="w-[250px] h-[250px]">
+              <AvatarImage src={preview} />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
             <div className="grid grid-rows-2 gap-4 ">
-             
+
               <div className="grid grid-cols-3 gap-4    ">
-              <FormField
+                <FormField
                   control={form.control}
                   name="imageFile"
                   render={({ field }) => (
@@ -120,22 +120,6 @@ export const Register = () => {
                             }
                           }}
                         />
-                      </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Email" {...field} />
                       </FormControl>
                       <FormDescription>
                         This is your public display name.
@@ -362,19 +346,19 @@ export const Register = () => {
                     </FormItem>
                   )}
                 />
-                
+
               </div>
               <div className="">
                 <Separator />
                 <div className="grid grid-cols-2 gap-4   ">
                   <FormField
                     control={form.control}
-                    name="username"
+                    name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="Username" {...field} />
+                          <Input placeholder="Email" {...field} />
                         </FormControl>
                         <FormDescription>
                           This is your public display name.
