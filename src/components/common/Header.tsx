@@ -1,7 +1,10 @@
+import { useCurrentUserFirstName, } from "@/hooks/use-user-hook";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
 import { Settings } from "lucide-react"
 
 export const Header =() =>{
+
+    const userFirstName = useCurrentUserFirstName();
     return(
 
         <div className="flex w-full justify-between shadow-lg">
@@ -12,7 +15,7 @@ export const Header =() =>{
                 <div className="flex justify-center items-center    ">
                     <Settings className="text-green-500 w-[65px] h-[45px]"/>
               
-                <h1 className="flex  text-[15px] p-1">John Doe</h1>
+                <h1 className="flex  text-[15px] p-1">{userFirstName}</h1>
                 <Avatar>
                     <AvatarImage src="https://github.com/shadcn.png" className="w-[45px] rounded-full" />
                     <AvatarFallback>CN</AvatarFallback>

@@ -1,11 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 
 import { ReactNode, useEffect, useState } from "react";
 
@@ -15,12 +9,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 import UserList from "./components/admin/pages/userPages/user-list";
 import { ScrollArea } from "./components/ui/scroll-area";
-import { Header } from "./components/common/Header";
-import { SideNav } from "./components/common/Sidenav";
-import { Dashboard } from "./components/admin/pages/Dashboard";
-import { Register } from "./components/common/Register";
+import { toast } from "react-toastify";
+import { UserForm } from "./components/admin/pages/userPages/forms/user-form";
 import { Login } from "./components/common/Login";
-
+import { Header } from "./components/common/header";
+import { SideNav } from "./components/common/sidenav";
+import { Dashboard } from "./components/admin/pages/dashboard";
+import { checkAuth } from "./api/auth/auth";
+import UserFormIndex from "./components/admin/pages/userPages/user-form-index";
 
 type PrivateProsp = {
   children: ReactNode;
@@ -30,21 +26,26 @@ const adminQueryClient = new QueryClient();
 const publicQueryClient = new QueryClient();
 
 const PrivateAdminRoute = ({ children }: PrivateProsp) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
+    const checkerAuth = async () => {
+      try {
+        await checkAuth();
+        setIsAuthenticated(true);
+      } catch (error) {
+        toast.error("Unauthorized");
+        navigate("/");
+      }
+    };
+    checkerAuth();
+  }, []);
 
   return isAuthenticated ? <>{children}</> : null;
 };
 function AdminRoutes() {
-  const { pathname } = useLocation();
-
   return (
     <QueryClientProvider client={adminQueryClient}>
       <PrivateAdminRoute>
@@ -59,13 +60,14 @@ function AdminRoutes() {
             <div className="flex-grow z-10 p-4">
               <div className="flex  bg-white min-h-screen ">
                 <ScrollArea className="h-full w-full">
-
-                <Routes>
-                  <Route path="/overview" element={<Dashboard />} />
-                  <Route path={`${pathname}/profile`} element={<Dashboard />} />
-                  <Route path={`/register`} element={<Register />} />
-                  <Route path={`/users`} element={<UserList />} />
-                </Routes>
+                  <Routes>
+                    <Route path="/overview" element={<Dashboard />} />
+                    <Route path={`/profile`} element={<Dashboard />} />
+                    <Route path={`/register`} element={<UserForm />} />
+                    <Route path={`/users`} element={<UserList />} />
+                    <Route path={`/userForm/:id`} element={<UserFormIndex />} />
+                    <Route path="/userForm" element={<UserFormIndex />} />
+                  </Routes>
                 </ScrollArea>
               </div>
             </div>

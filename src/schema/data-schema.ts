@@ -29,9 +29,9 @@ export const RegisterSchema = z.object({
     jobStatus: z.enum(["ACTIVE","INACTIVE","PENDING"],{
         message:"Invalid Input"
     }),
-    password: z.string().min(1,{
+    password: z.optional(z.string().min(1,{
         message:"Password is required"
-    }),
+    })),
     accountType: z.enum(["ADMIN","TL","USER"],{
         message:"Invalid Input"
     }),
@@ -49,7 +49,13 @@ export const RegisterSchema = z.object({
     })
    
 })
+export const UserFormSchema = RegisterSchema.omit({
+    password:true,
 
+}).extend({
+    id:z.optional(z.string()),
+    signedUrl : z.optional(z.string())
+})
 export const loginUserSchema = z.object({
     email:z.string().email({
         message:"Email is required"
@@ -70,6 +76,8 @@ export const UsersInfo = RegisterSchema.omit({
     imageUrl:z.string()
 
 })
+
+export type TUserForm = z.infer<typeof UserFormSchema>
 export type TLogin = z.infer<typeof loginUserSchema>
 export type TUsers = z.infer<typeof UsersInfo>
 export type TRegister = z.infer<typeof RegisterSchema>

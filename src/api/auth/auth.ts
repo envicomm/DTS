@@ -1,20 +1,38 @@
 import { TLogin } from "@/schema/data-schema";
 import axios from "axios";
 
-const userApi = import.meta.env.VITE_USER_API;
+const authApi = import.meta.env.VITE_AUTH_API;
 axios.defaults.withCredentials = true;
 export const loginUser = async (data: TLogin) => {
   try {
-    const response = await axios.post(`${userApi}/login`, data, {
+    const response = await axios.post(`${authApi}/login`, data, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
     });
-    return response.data;
+    console.log(response)
+    return response;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.message);
-    }
-    throw new Error("Something went wrong while logging in !");
+    console.log(error)
+    throw new Error(error.response.data.message);
   }
 };
+
+export const checkAuth = async () => {
+  try {
+    const response = await axios.post(`${authApi}/dashboardGateApi`);
+   
+    return response
+  } catch (error) {
+    console.log(error)
+    throw new Error("Unauthorized User");
+  }
+}
+export const logoutUser = async () => {
+  try {
+    const response = await axios.get(`${authApi}/logout`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Something went wrong while logging out !");
+  }
+}
