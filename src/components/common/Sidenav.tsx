@@ -78,16 +78,7 @@ export const SideNav = () => {
                 aria-orientation="vertical"
                 aria-labelledby="options-menu"
               >
-                <NavLink
-                  to="/dashboard/userForm"
-                  className={({ isActive }) => {
-                    return `w-full block px-4 py-2 text-xl  hover:bg-[#007bffba]  rounded-md ${
-                      isActive ? "bg-[#007BFF]" : ""
-                    }`;
-                  }}
-                >
-                  <h1>Register</h1>
-                </NavLink>
+              
                 <NavLink
                   to="/dashboard/users"
                   className={({ isActive }) => {
@@ -99,7 +90,7 @@ export const SideNav = () => {
                   <h1>User list</h1>
                 </NavLink>
                 <NavLink
-                  to="/dashboard/transaction"
+                  to="/dashboard/userAccount"
                   className={({ isActive }) => {
                     return `w-full block px-4 py-2 text-xl  hover:bg-[#007bffba]  rounded-md ${
                       isActive ? "bg-[#007BFF]" : ""

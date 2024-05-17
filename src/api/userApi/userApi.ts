@@ -7,6 +7,20 @@ type TUpdateUserInfoApi = {
   id: string;
 };
 
+
+export const getAccountInfoApi = async () => {
+  try {
+    const response = await axios.get(`${userApi}/account`);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error("Something went wrong while fetching account !");
+  }
+
+}
 export const getUserInfo = async () => {
   try {
     const response = await axios.get(`${userApi}/`);

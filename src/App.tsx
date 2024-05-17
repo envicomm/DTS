@@ -17,6 +17,8 @@ import { SideNav } from "./components/common/sidenav";
 import { Dashboard } from "./components/admin/pages/dashboard";
 import { checkAuth } from "./api/auth/auth";
 import UserFormIndex from "./components/admin/pages/userPages/user-form-index";
+import { UserAccountList } from "./components/admin/pages/userPages/user-account-list";
+import { TransactionForm } from "./components/admin/transaction/forms/transactionForm";
 
 type PrivateProsp = {
   children: ReactNode;
@@ -59,14 +61,16 @@ function AdminRoutes() {
             </div>
             <div className="flex-grow z-10 p-4">
               <div className="flex  bg-white min-h-screen ">
-                <ScrollArea className="h-full w-full">
+                <ScrollArea className="h-full w-full p-12">
                   <Routes>
                     <Route path="/overview" element={<Dashboard />} />
                     <Route path={`/profile`} element={<Dashboard />} />
+                    <Route path={`/userAccount`} element={<UserAccountList />} />
                     <Route path={`/register`} element={<UserForm />} />
                     <Route path={`/users`} element={<UserList />} />
                     <Route path={`/userForm/:id`} element={<UserFormIndex />} />
                     <Route path="/userForm" element={<UserFormIndex />} />
+                    <Route path="/transactionForm" element={<TransactionForm />} />
                   </Routes>
                 </ScrollArea>
               </div>

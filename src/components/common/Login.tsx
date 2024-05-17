@@ -5,10 +5,7 @@ export const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userinfo = localStorage.getItem("userinfo");
-    if (userinfo) {
-      navigate("/dashboard/overview");
-    }
+    
   }, []);
   return (
     <div className="lg:min-h-screen w-screen grid grid-cols-1 md:grid-cols-2 gap-1">

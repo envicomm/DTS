@@ -52,6 +52,7 @@ export const UserForm = ({ user }: FormProps) => {
   const [selectedDivision, setSelectedDivision] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [preview, setPreview] = useState("");
+
   const updateUserMutaion = useUpdateUserMutation();
   const registerMutation = useRegisterUserMutation();
 
@@ -68,13 +69,23 @@ export const UserForm = ({ user }: FormProps) => {
           assignedPosition: user.assignedPosition,
           dateStarted: user.dateStarted,
           jobStatus: user.jobStatus,
-          accountType: user.accountType,
+          accountRole: user.accountRole,
+          userId : user.userId,
           contactNumber: user.contactNumber,
           password :""
         }
       : undefined,
   });
-
+  const onSuccess = () => {
+    toast.success("User updated successfully");
+    setSubmitting(false);
+  };
+  
+  const onError = (error: any) => {
+    toast.error(error?.message);
+    setSubmitting(false);
+  };
+  
   const appendToFormData = (data: TRegister) => {
     const formData = new FormData();
 
@@ -93,33 +104,15 @@ export const UserForm = ({ user }: FormProps) => {
   };
   const onSubmit: SubmitHandler<TRegister> = (data) => {
     setSubmitting(true);
-
+  
     const formData = appendToFormData(data);
     if (user && user.id) {
       updateUserMutaion.mutate(
-        { formData, id:user.id},
-        {
-          onSuccess: () => {
-            toast.success("User updated successfully");
-            setSubmitting(false);
-          },
-          onError: (error) => {
-            toast.error(error?.message);
-            setSubmitting(false);
-          },
-        }
+        { formData, id: user.id },
+        { onSuccess, onError }
       );
     } else {
-      registerMutation.mutate(formData, {
-        onSuccess: () => {
-          toast.success("User created successfully");
-          setSubmitting(false);
-        },
-        onError: (error) => {
-          toast.error(error?.message);
-          setSubmitting(false);
-        },
-      });
+      registerMutation.mutate(formData, { onSuccess, onError });
     }
   };
 
@@ -155,6 +148,22 @@ export const UserForm = ({ user }: FormProps) => {
                             }
                           }}
                         />
+                      </FormControl>
+                      <FormDescription>
+                        This is your public display name.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="userId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>User ID</FormLabel>
+                      <FormControl>
+                        <Input placeholder="User ID" {...field} />
                       </FormControl>
                       <FormDescription>
                         This is your public display name.
@@ -302,9 +311,10 @@ export const UserForm = ({ user }: FormProps) => {
                             <SelectValue placeholder="Select Position" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="ADMIN">ADMIN</SelectItem>
+                            <SelectItem value="MANAGER">ADMIN</SelectItem>
                             <SelectItem value="TL">TL</SelectItem>
                             <SelectItem value="CH">CH</SelectItem>
+                            <SelectItem value="STAFF">STAFF</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -317,24 +327,24 @@ export const UserForm = ({ user }: FormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="accountType"
+                  name="accountRole"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Account Type</FormLabel>
                       <FormControl>
                         <Select
-                          defaultValue={user ? user.accountType : undefined}
+                          defaultValue={user ? user.accountRole : undefined}
                           onValueChange={(value) => field.onChange(value)}
                         >
                           <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select Account type" />
+                            <SelectValue placeholder="Select Account Role" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="ADMIN">ADMIN</SelectItem>
                             <SelectItem value="SUPERADMIN">
                               SUPERADMIN
                             </SelectItem>
-                            <SelectItem value="USERS">USERS</SelectItem>
+                            <SelectItem value="USER">USERS</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
