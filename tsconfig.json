@@ -5,6 +5,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "jsx": "react-jsx",
 
     /* for shadcn */
     "baseUrl": ".",
@@ -21,7 +22,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+
 
     /* Linting */
     "strict": true,
@@ -29,6 +30,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src","new_src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
